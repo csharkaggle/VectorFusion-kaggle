@@ -129,8 +129,12 @@ class VectorFusionPipeline(ModelState):
     @torch.no_grad()
     def rejection_sampling(self, img_caption: Union[AnyStr, List], diffusion_samples: List):
         import clip  # local import
-
-        clip_model, preprocess = clip.load("ViT-B/32", device=self.device)
+        if self.args.use_kagglehub:
+            import kagglehub
+            model_path = kagglehub.dataset_download("titericz/openaiclipweights", path='clip/CLIP/models/ViT-B-32.pt')
+            clip_model, preprocess = clip.load(model_path, device=self.device)
+        else:
+            clip_model, preprocess = clip.load("ViT-B/32", device=self.device)
 
         text_input = clip.tokenize([img_caption]).to(self.device)
         text_features = clip_model.encode_text(text_input)
