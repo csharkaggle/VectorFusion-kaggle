@@ -18,8 +18,8 @@ import omegaconf
 
 sys.path.append(os.path.split(os.path.abspath(os.path.dirname(__file__)))[0])
 
-from libs.engine import merge_and_update_config
-from libs.utils.argparse import accelerate_parser, base_data_parser
+from vectorfusion.libs.engine import merge_and_update_config
+from vectorfusion.libs.utils.argparse import accelerate_parser, base_data_parser
 
 
 def render_batch_wrap(args: omegaconf.DictConfig,
@@ -41,7 +41,7 @@ def main(args, seed_range):
 
     render_batch_fn = partial(render_batch_wrap, args=args, seed_range=seed_range)
 
-    from pipelines.painter.VectorFusion_pipeline import VectorFusionPipeline
+    from vectorfusion.pipelines.painter.VectorFusion_pipeline import VectorFusionPipeline
 
     if args.path_schedule == 'list' and not isinstance(args.schedule_each, omegaconf.ListConfig):
         args.schedule_each = ast.literal_eval(args.schedule_each)

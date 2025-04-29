@@ -13,13 +13,13 @@ import torch
 import torchvision.utils
 from torchvision import transforms
 
-from libs.engine import ModelState
-from methods.painter.vectorfusion import LSDSPipeline, LSDSSDXLPipeline, Painter, PainterOptimizer
-from methods.painter.vectorfusion import channel_saturation_penalty_loss as pixel_penalty_loss
-from methods.painter.vectorfusion import xing_loss_fn
-from methods.painter.vectorfusion.utils import log_tensor_img, plt_batch, view_images
-from methods.diffusers_warp import init_diffusion_pipeline, model2res
-from methods.diffvg_warp import init_diffvg
+from vectorfusion.libs.engine import ModelState
+from vectorfusion.methods.painter.vectorfusion import LSDSPipeline, LSDSSDXLPipeline, Painter, PainterOptimizer
+from vectorfusion.methods.painter.vectorfusion import channel_saturation_penalty_loss as pixel_penalty_loss
+from vectorfusion.methods.painter.vectorfusion import xing_loss_fn
+from vectorfusion.methods.painter.vectorfusion.utils import log_tensor_img, plt_batch, view_images
+from vectorfusion.methods.diffusers_warp import init_diffusion_pipeline, model2res
+from vectorfusion.methods.diffvg_warp import init_diffvg
 
 
 class VectorFusionPipeline(ModelState):
