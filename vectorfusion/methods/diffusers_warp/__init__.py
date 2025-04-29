@@ -78,12 +78,14 @@ def init_diffusion_pipeline(model_id: AnyStr,
     """
 
     # get model id
-    model_id = huggingface_model_dict.get(model_id, model_id)
 
     if use_kagglehub:
         import kagglehub
         model_id = DiffusersModelsInKaggleHub.get(model_id, model_id)
         model_id = kagglehub.model_download(model_id)
+    else:
+        model_id = huggingface_model_dict.get(model_id, model_id)
+
 
     # process diffusion model
     if custom_scheduler is not None:
