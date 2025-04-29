@@ -2,13 +2,7 @@
 # Copyright (c) XiMing Xing. All rights reserved.
 # Author: XiMing Xing
 
-import os
-import subprocess
-import sys
 from setuptools import setup, find_packages
-from setuptools.command.install import install
-from setuptools.command.develop import develop
-from setuptools.command.egg_info import egg_info
 
 
 setup(
