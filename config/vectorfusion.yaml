@@ -4,7 +4,7 @@ skip_live: False # Whether to skip the LIVE phase
 style: "iconography" # "pixelart", "sketch"
 
 # train
-num_iter: 500 # num_iter per path group
+num_iter: 100 # num_iter per path group
 num_stages: 1 # training stages, you can train x strokes, then freeze them and train another x strokes etc
 lr_base:
   point: 1
@@ -15,7 +15,7 @@ lr_base:
 lr_scheduler: True
 
 # primitives
-num_paths: 128 # number of strokes
+num_paths: 50 # number of strokes
 path_schedule: 'repeat' # or 'list'
 schedule_each: 16 # or [1, 3, 5, 7]
 train_stroke: False # train stroke width and color
@@ -34,7 +34,7 @@ path_reinit: # reinitializing paths
   area_threshold: 64 # Re-initialize the path if the area is lower than the threshold
 
 # diffusion
-model_id: "sd15" # sd14, sd15, sd21, sd21b, sdxl
+model_id: "sd21b" # sd14, sd15, sd21, sd21b, sdxl
 ldm_speed_up: False
 enable_xformers: True
 gradient_checkpoint: False
@@ -42,6 +42,9 @@ num_inference_steps: 50 # DDIM sampling step
 guidance_scale: 7.5 # CFG
 K: 6 # reject sampling
 lora_path: ~
+use_kagglehub: True
+vae_slicing: True
+cpu_offload: True
 
 # SDS
 sds:
@@ -49,7 +52,7 @@ sds:
   guidance_scale: 100 # CFG
   grad_scale: 1.0 # the weight of SDS grads
   t_range: [ 0.05, 0.95 ] # timestep range
-  num_iter: 1000 # fine-tuning steps
+  num_iter: 100 # fine-tuning steps
 
 # LIVE loss
 use_distance_weighted_loss: True

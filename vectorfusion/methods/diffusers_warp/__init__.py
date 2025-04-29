@@ -19,6 +19,14 @@ huggingface_model_dict = OrderedDict({
     "sdxl": "stabilityai/stable-diffusion-xl-base-1.0",  # resolution: 1024
 })
 
+DiffusersModelsInKaggleHub = OrderedDict({
+    #"sd14": "CompVis/stable-diffusion-v1-4",  # resolution: 512
+    #"sd15": "runwayml/stable-diffusion-v1-5",  # resolution: 512
+    "sd21b": "stabilityai/stable-diffusion-v2/pytorch/1-base/1",  # resolution: 512
+    "sd21": "stabilityai/stable-diffusion-v2/pytorch/1/1",  # resolution: 768
+    "sdxl": "stabilityai/stable-diffusion-xl/pytorch/base-1-0/1",  # resolution: 1024
+})
+
 _model2resolution = {
     "sd14": 512,
     "sd15": 512,
@@ -40,9 +48,12 @@ def init_diffusion_pipeline(model_id: AnyStr,
                             local_files_only: bool = True,
                             force_download: bool = False,
                             resume_download: bool = False,
+                            use_kagglehub: bool = False,
                             ldm_speed_up: bool = False,
                             enable_xformers: bool = True,
                             gradient_checkpoint: bool = False,
+                            cpu_offload: bool = False,
+                            vae_slicing: bool = False,
                             lora_path: AnyStr = None,
                             unet_path: AnyStr = None) -> StableDiffusionPipeline:
     """
@@ -68,6 +79,11 @@ def init_diffusion_pipeline(model_id: AnyStr,
 
     # get model id
     model_id = huggingface_model_dict.get(model_id, model_id)
+
+    if use_kagglehub:
+        import kagglehub
+        model_id = DiffusersModelsInKaggleHub.get(model_id, model_id)
+        model_id = kagglehub.model_download(model_id)
 
     # process diffusion model
     if custom_scheduler is not None:
@@ -132,6 +148,12 @@ def init_diffusion_pipeline(model_id: AnyStr,
             pipeline.unet.enable_gradient_checkpointing()
         else:
             print("=> waring: gradient checkpointing is not activated for this model.")
+
+    if cpu_offload:
+        pipeline.enable_sequential_cpu_offload()
+
+    if vae_slicing:
+        pipeline.enable_vae_slicing()
 
     print(f"Diffusion Model: {model_id}")
     print(pipeline.scheduler)

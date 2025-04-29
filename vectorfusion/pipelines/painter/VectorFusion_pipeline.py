@@ -89,7 +89,10 @@ class VectorFusionPipeline(ModelState):
             ldm_speed_up=args.ldm_speed_up,
             enable_xformers=args.enable_xformers,
             gradient_checkpoint=args.gradient_checkpoint,
-            lora_path=args.lora_path
+            lora_path=args.lora_path,
+            use_kagglehub=args.use_kagglehub,
+            cpu_offload=args.cpu_offload,
+            vae_slicing=args.vae_slicing,
         )
 
         self.g_device = torch.Generator(device=self.device).manual_seed(args.seed)
